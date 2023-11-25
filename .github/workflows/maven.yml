@@ -28,7 +28,12 @@ jobs:
         ls -l
 
     - name: Deploy to Tomcat
-      run: |
-        cd /home/runner/work/GitHubActions-WebAppDeployment/GitHubActions-WebAppDeployment/
-        ls -l  # List files to verify the presence of the WAR file
-        curl -v -u : -T spring3-mvc-maven-xml-hello-world-3.0-SNAPSHOT.war 'http://ec2-43.205.206.151.ap-south-1.compute.amazonaws.com:8080/manager/text/deploy?path=/myweb_dev_action&update=true'
+      uses: appleboy/ssh-action@master
+      with:
+        #host: ${{ secrets.TOMCAT_HOST }}
+        username: ${{ secrets.TOMCAT_USERNAME }}
+        password: ${{ secrets.TOMCAT_PASSWORD }}
+        script: |
+          cd /home/runner/work/GitHubActions-WebAppDeployment/GitHubActions-WebAppDeployment/
+          ls -l  # List files to verify the presence of the WAR file
+          curl -v -u : -T spring3-mvc-maven-xml-hello-world-3.0-SNAPSHOT.war 'http://ec2-43.205.206.151.ap-south-1.compute.amazonaws.com:8080/manager/text/deploy?path=/myweb_dev_action&update=true'
