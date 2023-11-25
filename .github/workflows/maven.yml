@@ -16,7 +16,9 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: deploy tomcat
-      run: curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} -T /home/runner/work/GitHubActions-WebAppDeployment/GitHubActions-WebAppDeployment/target/spring3-mvc-maven-xml-hello-world-3.0-SNAPSHOT.war 'http://ec2-43.205.206.151.ap-south-1.compute.amazonaws.com:8080/manager/text/deploy?path=/myweb_dev_action&update=true'
-
+      run: |
+        curl -v -u ${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }} \
+        -T /home/runner/work/GitHubActions-WebAppDeployment/GitHubActions-WebAppDeployment/target/spring3-mvc-maven-xml-hello-world-3.0-SNAPSHOT.war \
+        'http://${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/myweb_dev_action&update=true'
 
     
